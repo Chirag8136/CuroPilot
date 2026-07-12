@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  /* You can add custom theme variables here */
+}
+
+@layer base {
+  html, body {
+    @apply bg-slate-950 text-slate-100 antialiased h-full w-full m-0 p-0;
+    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  }
+  
+  #root {
+    @apply h-full w-full flex flex-col;
+  }
+}

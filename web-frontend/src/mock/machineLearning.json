@@ -1,0 +1,218 @@
+{
+  "topic": "Machine Learning",
+  "description": "A comprehensive roadmap to master Machine Learning, from mathematical foundations to advanced deep learning architectures.",
+  "nodes": [
+    {
+      "id": "ml-1",
+      "title": "Mathematics for ML",
+      "description": "Essential mathematics required for machine learning, focusing on Linear Algebra, Calculus, and Probability.",
+      "difficulty": "Beginner",
+      "estimatedTime": "3 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "Mathematics for Machine Learning",
+            "url": "https://mml-book.github.io/"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "3Blue1Brown - Essence of Linear Algebra",
+            "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab"
+          }
+        ]
+      },
+      "project": {
+        "title": "Math Fundamentals Implementation",
+        "description": "Implement basic matrix operations and gradient descent from scratch using numpy."
+      }
+    },
+    {
+      "id": "ml-2",
+      "title": "Python for Data Science",
+      "description": "Mastering the Python data stack: Numpy, Pandas, and Matplotlib.",
+      "difficulty": "Beginner",
+      "estimatedTime": "2 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "Python Data Science Handbook",
+            "url": "https://jakevdp.github.io/PythonDataScienceHandbook/"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "Corey Schafer - Pandas Playlist",
+            "url": "https://www.youtube.com/playlist?list=PL-osiE80TeTsWmV9i9c58mdDZAsk5Fv"
+          }
+        ]
+      },
+      "project": {
+        "title": "Exploratory Data Analysis",
+        "description": "Perform EDA on a real-world dataset (e.g. Titanic or House Prices) using Pandas and Matplotlib."
+      }
+    },
+    {
+      "id": "ml-3",
+      "title": "Supervised Learning",
+      "description": "Learn the core algorithms: Linear/Logistic Regression, Decision Trees, Random Forests, and SVMs.",
+      "difficulty": "Intermediate",
+      "estimatedTime": "4 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "Scikit-Learn User Guide",
+            "url": "https://scikit-learn.org/stable/user_guide.html"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "StatQuest - Machine Learning",
+            "url": "https://www.youtube.com/playlist?list=PLblh5JKOoLUICTaGLRoHQDuF_7q2GfuJF"
+          }
+        ]
+      },
+      "project": {
+        "title": "Predictive Modeling",
+        "description": "Build a pipeline to clean data, train multiple supervised models, and tune hyperparameters using GridSearchCV."
+      }
+    },
+    {
+      "id": "ml-4",
+      "title": "Unsupervised Learning",
+      "description": "Discovering hidden structures in data with K-Means clustering, PCA, and Anomaly Detection.",
+      "difficulty": "Intermediate",
+      "estimatedTime": "2 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "K-Means Clustering Tutorial",
+            "url": "https://realpython.com/k-means-clustering-python/"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "StatQuest - PCA",
+            "url": "https://www.youtube.com/watch?v=FgakZw6K1QQ"
+          }
+        ]
+      },
+      "project": {
+        "title": "Customer Segmentation",
+        "description": "Use K-Means and PCA to group customers based on purchasing behavior."
+      }
+    },
+    {
+      "id": "ml-5",
+      "title": "Deep Learning Fundamentals",
+      "description": "Introduction to Neural Networks, Backpropagation, and frameworks like PyTorch or TensorFlow.",
+      "difficulty": "Advanced",
+      "estimatedTime": "4 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "Deep Learning Book",
+            "url": "https://www.deeplearningbook.org/"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "Fast.ai Practical Deep Learning",
+            "url": "https://course.fast.ai/"
+          }
+        ]
+      },
+      "project": {
+        "title": "Image Classifier",
+        "description": "Build and train a multi-layer perceptron (MLP) on the MNIST dataset."
+      }
+    },
+    {
+      "id": "ml-6",
+      "title": "Computer Vision (CNNs)",
+      "description": "Mastering Convolutional Neural Networks for image classification, object detection, and segmentation.",
+      "difficulty": "Advanced",
+      "estimatedTime": "3 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "CS231n Notes",
+            "url": "https://cs231n.github.io/"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "Stanford CS231n Playlist",
+            "url": "https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv"
+          }
+        ]
+      },
+      "project": {
+        "title": "Custom Object Detection",
+        "description": "Fine-tune a pre-trained ResNet model to classify real-world images."
+      }
+    },
+    {
+      "id": "ml-7",
+      "title": "Natural Language Processing",
+      "description": "Handling text data using Embeddings, RNNs, LSTMs, and modern Transformer architectures.",
+      "difficulty": "Advanced",
+      "estimatedTime": "4 weeks",
+      "resources": {
+        "reading": [
+          {
+            "title": "Hugging Face Course",
+            "url": "https://huggingface.co/learn/nlp-course/chapter1/1"
+          }
+        ],
+        "youtube": [
+          {
+            "title": "Stanford CS224N",
+            "url": "https://www.youtube.com/playlist?list=PLoROMvodv4rOSH4v6133s9LFPRHjEmbmJ"
+          }
+        ]
+      },
+      "project": {
+        "title": "Sentiment Analysis App",
+        "description": "Train a Transformer model to classify sentiment and deploy it as an API."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1-2",
+      "source": "ml-1",
+      "target": "ml-2"
+    },
+    {
+      "id": "e2-3",
+      "source": "ml-2",
+      "target": "ml-3"
+    },
+    {
+      "id": "e2-4",
+      "source": "ml-2",
+      "target": "ml-4"
+    },
+    {
+      "id": "e3-5",
+      "source": "ml-3",
+      "target": "ml-5"
+    },
+    {
+      "id": "e4-5",
+      "source": "ml-4",
+      "target": "ml-5"
+    },
+    {
+      "id": "e5-6",
+      "source": "ml-5",
+      "target": "ml-6"
+    },
+    {
+      "id": "e5-7",
+      "source": "ml-5",
+      "target": "ml-7"
+    }
+  ]
+}
