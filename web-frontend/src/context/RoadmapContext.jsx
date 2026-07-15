@@ -4,13 +4,17 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const RoadmapContext = createContext(null);
 
+const getTopicSlug = (topic) => (topic || '').toLowerCase().trim().replace(/\s+/g, '-');
+
 export const RoadmapProvider = ({ children }) => {
   const [currentTopic, setCurrentTopic] = useState('');
   const [roadmapData, setRoadmapData] = useState(null);
-  
-  // Persist completed nodes in local storage to maintain state across refreshes
-  const [completedNodes, setCompletedNodes] = useLocalStorage('nexus_completed_nodes', []);
-  
+
+  // Stored as { [topicSlug]: [nodeId, nodeId, ...] } so completion doesn't
+  // bleed between different topics whose node IDs happen to overlap
+  // (every roadmap restarts numbering at "1").
+  const [completedByTopic, setCompletedByTopic] = useLocalStorage('nexus_completed_nodes_v2', {});
+
   const [activeNode, setActiveNode] = useState(null);
   const [loadingState, setLoadingState] = useState(false);
 
@@ -22,12 +26,9 @@ export const RoadmapProvider = ({ children }) => {
     try {
       setLoadingState(true);
       setTopic(topic);
-      // Reset state for new roadmap, but optionally we could keep completedNodes 
-      // if we were storing them per-topic. For now, clearing on new roadmap generation.
       setRoadmapData(null);
       setActiveNode(null);
-      // setCompletedNodes([]); // Commented out to allow persistence between sessions if testing same roadmap
-      
+
       const data = await generateRoadmap(topic);
       setRoadmapData(data);
     } catch (error) {
@@ -37,13 +38,21 @@ export const RoadmapProvider = ({ children }) => {
     }
   }, [setTopic]);
 
-  const toggleNodeCompletion = useCallback((nodeId) => {
-    setCompletedNodes((prev) => 
-      prev.includes(nodeId)
-        ? prev.filter((id) => id !== nodeId)
-        : [...prev, nodeId]
-    );
-  }, [setCompletedNodes]);
+  const slug = getTopicSlug(currentTopic);
+  const completedNodes = completedByTopic[slug] || [];
+
+  const toggleNodeCompletion = useCallback(
+    (nodeId) => {
+      setCompletedByTopic((prev) => {
+        const current = prev[slug] || [];
+        const updated = current.includes(nodeId)
+          ? current.filter((id) => id !== nodeId)
+          : [...current, nodeId];
+        return { ...prev, [slug]: updated };
+      });
+    },
+    [setCompletedByTopic, slug]
+  );
 
   return (
     <RoadmapContext.Provider
