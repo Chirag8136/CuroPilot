@@ -17,7 +17,7 @@ export const generateRoadmap = async (topic) => {
   }
 
   try {
-    const response = await api.post('/roadmaps/generate', { topic });
+    const response = await api.post('/generate-roadmap', { topic });
     return response.data;
   } catch (error) {
     console.error('Failed to fetch roadmap:', error);

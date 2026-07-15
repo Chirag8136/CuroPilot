@@ -1,34 +1,31 @@
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  ReactFlow, 
-  MiniMap, 
-  Controls, 
-  Background, 
-  useNodesState, 
+import {
+  ReactFlow,
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
   useEdgesState,
-  BackgroundVariant
+  BackgroundVariant,
 } from '@xyflow/react';
-import '@xyflow/react/dist/style.css'; // Important!
+import '@xyflow/react/dist/style.css';
 import { useRoadmap } from '../context/RoadmapContext';
 import { getLayoutedElements } from '../utils/graphLayout';
 import CustomNode from '../components/CustomNode';
 import Sidebar from '../components/Sidebar';
 import { ArrowLeft } from 'lucide-react';
 
-const nodeTypes = {
-  custom: CustomNode,
-};
+const nodeTypes = { custom: CustomNode };
 
 export default function RoadmapPage() {
-  const { roadmapData, setActiveNode } = useRoadmap();
+  const { roadmapData, currentTopic, setActiveNode } = useRoadmap();
   const navigate = useNavigate();
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   useEffect(() => {
-    // If user refreshes or accesses page without generating a roadmap, redirect back
     if (!roadmapData) {
       navigate('/');
       return;
@@ -41,58 +38,53 @@ export default function RoadmapPage() {
       data: {
         title: node.title,
         description: node.description,
-        difficulty: node.difficulty,
-        estimatedTime: node.estimatedTime,
-        fullNodeData: node // So we can easily pass it to context on click
+        fullNodeData: node,
       },
     }));
 
+    // Backend edges only have source/target — generate a stable id here.
     const initialEdges = roadmapData.edges.map((edge) => ({
-      id: edge.id,
+      id: `e-${edge.source}-${edge.target}`,
       source: edge.source,
       target: edge.target,
       animated: true,
-      style: { stroke: '#475569', strokeWidth: 2 },
+      style: { stroke: '#a5b4fc', strokeWidth: 2 },
     }));
 
-    // Compute layout using dagre
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
       initialNodes,
       initialEdges,
-      'TB' // Top to Bottom
+      'TB'
     );
 
     setNodes([...layoutedNodes]);
     setEdges([...layoutedEdges]);
-
-    // Reset active node when roadmap changes
     setActiveNode(null);
   }, [roadmapData, navigate, setNodes, setEdges, setActiveNode]);
 
-  const onNodeClick = useCallback((event, node) => {
-    setActiveNode(node.data.fullNodeData);
-  }, [setActiveNode]);
+  const onNodeClick = useCallback(
+    (event, node) => setActiveNode(node.data.fullNodeData),
+    [setActiveNode]
+  );
 
   return (
     <div className="flex-1 w-full h-full relative flex flex-col">
-      {/* Navigation and Title Bar */}
-      <div className="absolute top-4 left-4 z-10 flex items-center gap-4">
-         <button 
-           onClick={() => navigate('/')} 
-           className="flex items-center gap-2 px-4 py-2 bg-slate-900/80 border border-slate-700 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors backdrop-blur-md shadow-lg"
-         >
-           <ArrowLeft size={16} />
-           Back to Hub
-         </button>
-         {roadmapData && (
-           <h1 className="text-xl font-bold text-white tracking-tight bg-slate-900/80 px-5 py-2 rounded-xl border border-slate-700 backdrop-blur-md shadow-lg">
-             {roadmapData.topic}
-           </h1>
-         )}
+      <div className="absolute top-4 left-4 z-10 flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-colors shadow-sm"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </button>
+        {currentTopic && (
+          <h1 className="text-sm font-semibold text-slate-900 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+            {currentTopic}
+          </h1>
+        )}
       </div>
 
-      {/* The Canvas Area */}
-      <div className="flex-1 w-full relative"> 
+      <div className="flex-1 w-full relative">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -101,25 +93,17 @@ export default function RoadmapPage() {
           onNodeClick={onNodeClick}
           nodeTypes={nodeTypes}
           fitView
-          fitViewOptions={{ padding: 0.2 }}
+          fitViewOptions={{ padding: 0.3 }}
           minZoom={0.2}
           maxZoom={1.5}
+          proOptions={{ hideAttribution: true }}
         >
-          <Background color="#334155" variant={BackgroundVariant.Dots} gap={20} size={1.5} />
-          
-          <Controls 
-            className="bg-slate-900 border-slate-700 fill-slate-300 [&>button]:border-b-slate-700 [&>button:hover]:bg-slate-800 rounded-lg overflow-hidden shadow-xl" 
-          />
-          
-          <MiniMap 
-            nodeColor={(node) => {
-              if (node.data.difficulty === 'Beginner') return '#22c55e';
-              if (node.data.difficulty === 'Intermediate') return '#f97316';
-              if (node.data.difficulty === 'Advanced') return '#ef4444';
-              return '#475569';
-            }}
-            maskColor="rgba(15, 23, 42, 0.7)"
-            className="bg-slate-900 border-slate-700 rounded-xl overflow-hidden shadow-xl"
+          <Background color="#e2e8f0" variant={BackgroundVariant.Dots} gap={20} size={1.5} />
+          <Controls className="!shadow-sm !border !border-slate-200 !rounded-xl" showInteractive={false} />
+          <MiniMap
+            nodeColor="#c7d2fe"
+            maskColor="rgba(248, 250, 252, 0.7)"
+            className="!border !border-slate-200 !rounded-xl !shadow-sm"
           />
         </ReactFlow>
       </div>

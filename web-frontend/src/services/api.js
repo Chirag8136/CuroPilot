@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 // Base URL switcher (can be configured via environment variables)
-const USE_MOCK = true;
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const USE_MOCK = false;
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },

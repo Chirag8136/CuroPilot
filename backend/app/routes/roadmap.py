@@ -49,9 +49,8 @@ async def generate_roadmap(request: RoadmapRequest) -> RoadmapResponse:
     provider, validates the structure, and returns it as JSON for the
     frontend to render with React Flow.
     """
-    service = RoadmapService()
-
     try:
+        service = RoadmapService()
         # Pydantic has already validated/sanitized `request.topic`.
         roadmap = await service.generate_roadmap(request.topic)
         return roadmap
